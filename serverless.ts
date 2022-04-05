@@ -3,7 +3,7 @@ import type { AWS } from '@serverless/typescript';
 import hello from 'src/functions/hello';
 
 const serverlessConfiguration: AWS = {
-  service: 'typescript-serverless-boilerplate',
+  service: 'slack-apps-any-times',
   frameworkVersion: '3',
   useDotenv: true,
   plugins: ['serverless-offline', 'serverless-esbuild'],

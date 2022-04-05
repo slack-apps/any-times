@@ -15,11 +15,10 @@ oauth_config:
       - channels:history
     bot:
       - chat:write
-      - chat:write.public
       - channels:read
 settings:
   event_subscriptions:
-    request_url: DUMMY_REQUEST_URL
+    request_url: https://DUMMY_REQUEST_URL/slack/events
     user_events:
       - message.channels
   interactivity:

@@ -1,7 +1,7 @@
 {
-  "name": "typescript-serverless-boilerplate",
+  "name": "@slack-apps/any-times",
   "version": "0.0.0",
-  "description": "Minimalistic boilerplate to quick-start TypeScript development in AWS Lambda.",
+  "description": "Collect messages in times-*",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf coverage .esbuild",
