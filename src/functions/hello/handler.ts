@@ -1,6 +1,8 @@
 import { App, AwsLambdaReceiver } from '@slack/bolt';
 import { AwsCallback, AwsEvent } from '@slack/bolt/dist/receivers/AwsLambdaReceiver';
-import { isGenericMessageEvent } from '@libs/helper';
+import { isFileShareEvent, isGenericMessageEvent } from '@libs/helper';
+import { Channel } from '@guards/channel';
+import { Permalink } from '@guards/permalink';
 
 const awsLambdaReceiver = new AwsLambdaReceiver({
   signingSecret: process.env['SLACK_SIGNING_SECRET'] as string,
@@ -12,36 +14,62 @@ const app = new App({
   processBeforeResponse: true,
 });
 
-app.message('hello', async ({ message, say }) => {
-  if (!isGenericMessageEvent(message)) {
+app.event('message', async ({ message, event, client, logger }) => {
+  if (!isGenericMessageEvent(message) && !isFileShareEvent(message)) {
     return;
   }
 
-  await say({
-    blocks: [
-      {
-        type: 'section',
-        text: {
-          type: 'mrkdwn',
-          text: `Hey there <@${message.user}>!`,
-        },
-        accessory: {
-          type: 'button',
-          text: {
-            type: 'plain_text',
-            text: 'Click Me',
-          },
-          action_id: 'button_click',
-        },
-      },
-    ],
-    text: `Hey there <@${message.user}>!`,
-  });
-});
+  let channel;
+  try {
+    const result = await client.conversations.info({
+      channel: event.channel,
+    });
+    ({ channel } = result);
+  } catch (error) {
+    logger.error(error);
 
-app.action('button_click', async ({ body, ack, say }) => {
-  await ack();
-  await say(`<@${body.user.id}> clicked the button`);
+    return;
+  }
+
+  if (!Channel.guard(channel)) {
+    logger.error(channel);
+
+    return;
+  }
+
+  if (channel.name.indexOf('times-') !== 0) {
+    return;
+  }
+
+  let permalink;
+  try {
+    const result = await client.chat.getPermalink({
+      channel: event.channel,
+      message_ts: event.ts,
+    });
+    ({ permalink } = result);
+  } catch (error) {
+    logger.error(error);
+
+    return;
+  }
+
+  if (!Permalink.guard(permalink)) {
+    logger.error(permalink);
+
+    return;
+  }
+
+  try {
+    await client.chat.postMessage({
+      channel: process.env['CHANNEL_TO_NOTIFY'] as string,
+      text: permalink,
+      unfurl_links: true,
+      unfurl_media: true,
+    });
+  } catch (error) {
+    logger.error(error);
+  }
 });
 
 module.exports.main = async (event: AwsEvent, context: any, callback: AwsCallback) => {
