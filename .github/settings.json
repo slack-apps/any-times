@@ -31,7 +31,7 @@
     {
       "pattern": "*develop",
       "requiresApprovingReviews": true,
-      "requiredApprovingReviewCount": 1,
+      "requiredApprovingReviewCount": 0,
       "dismissesStaleReviews": false,
       "requiresCodeOwnerReviews": false,
       "restrictsReviewDismissals": false,
