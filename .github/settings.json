@@ -55,6 +55,34 @@
       "allowsForcePushes": false,
       "bypassForcePushAllowances": [],
       "allowsDeletions": false
+    },
+    {
+      "pattern": "mask",
+      "requiresApprovingReviews": true,
+      "requiredApprovingReviewCount": 0,
+      "dismissesStaleReviews": false,
+      "requiresCodeOwnerReviews": false,
+      "restrictsReviewDismissals": false,
+      "reviewDismissalAllowances": [],
+      "bypassPullRequestAllowances": [],
+      "requireLastPushApproval": false,
+      "requiresStatusChecks": true,
+      "requiresStrictStatusChecks": true,
+      "requiredStatusChecks": ["WIP", "build"],
+      "requiresConversationResolution": false,
+      "requiresCommitSignatures": false,
+      "requiresLinearHistory": false,
+      "requiresDeployments": false,
+      "requiredDeploymentEnvironments": [],
+      "lockBranch": false,
+      "lockAllowsFetchAndMerge": false,
+      "isAdminEnforced": true,
+      "restrictsPushes": true,
+      "blocksCreations": true,
+      "pushAllowances": [],
+      "allowsForcePushes": false,
+      "bypassForcePushAllowances": [],
+      "allowsDeletions": false
     }
   ]
 }
