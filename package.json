@@ -32,7 +32,7 @@
     "eslint-plugin-jest": "26.9.0",
     "jest": "27.5.1",
     "prettier": "2.8.4",
-    "rimraf": "3.0.2",
+    "rimraf": "4.4.1",
     "serverless": "3.28.1",
     "serverless-esbuild": "1.39.0",
     "serverless-offline": "8.8.1",
